@@ -20,16 +20,43 @@ import '../styles/Hero.scss';
     
     if (!heroContainer || !titleElement || !subtitleElement || !particlesContainer) return;
 
-    // Create particles
-    for (let i = 0; i < 100; i++) {
+    // Create particles with more subtle styling
+    const particleCount = 50; // Reduced for subtlety
+    
+    for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
-      particle.style.animationDelay = `${Math.random() * 2}s`;
+      
+      // More subtle, professional positioning and sizing
+      const size = Math.random() * 3 + 1;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const opacity = Math.random() * 0.3 + 0.1; // More subtle opacity
+      
+      // Apply styles
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}%`;
+      particle.style.top = `${posY}%`;
+      particle.style.opacity = opacity.toString();
+      
       particlesContainer.appendChild(particle);
     }
+    
+    // Animate particles with more subtle movement
+    gsap.to('.particle', {
+      y: 'random(-20, 20)',
+      x: 'random(-20, 20)',
+      opacity: 'random(0.1, 0.3)',
+      duration: 'random(3, 6)',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+      stagger: {
+        each: 0.1,
+        from: 'random'
+      }
+    });
 
     // Create GSAP timeline for hero animations
     const tl = gsap.timeline();
@@ -40,22 +67,20 @@ import '../styles/Hero.scss';
       y: 100
     });
     
-    // Explosive entrance animation
-    tl.to(titleElement, {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      ease: "elastic.out(1, 0.3)",
-      rotationX: 360,
-      transformOrigin: "center center"
-    })
-    .to(subtitleElement, {
-      opacity: 1,
-      y: 0,
+    // More subtle title animation
+    tl.from(titleElement, {
+      y: 30,
+      opacity: 0,
       duration: 1,
-      ease: "back.out(1.7)",
-      stagger: 0.1
-    }, "-=0.5");
+      ease: "power3.out"
+    })
+    // Subtitle with slight delay
+    .from(subtitleElement, {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    }, "-=0.4");
     
     // Mouse movement effect for 3D rotation
     heroContainer.addEventListener('mousemove', (e) => {
