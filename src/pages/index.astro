@@ -1,16 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero/Hero.tsx';
-import ComplianceReport from '../components/ComplianceReport/ComplianceReport.tsx';
-import SummaryTable from '../components/SummaryTable/SummaryTable.tsx';
-import QASection from '../components/QASection/QASection.tsx';
-import OverallRating from '../components/OverallRating/OverallRating.tsx';
+import Hero from '../components/Hero/Hero.astro';
+import ComplianceReport from '../components/ComplianceReport/ComplianceReport.astro';
+import SummaryTable from '../components/SummaryTable/SummaryTable.astro';
+import QASection from '../components/QASection/QASection.astro';
+import OverallRating from '../components/OverallRating/OverallRating.astro';
 ---
 
 <Layout>
-  <Hero client:load />
-  <ComplianceReport client:visible />
-  <SummaryTable client:visible />
-  <QASection client:visible />
-  <OverallRating client:visible />
+  <Hero />
+  <ComplianceReport />
+  <SummaryTable />
+  <QASection />
+  <OverallRating />
 </Layout>

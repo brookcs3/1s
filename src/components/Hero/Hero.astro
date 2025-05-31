@@ -1,0 +1,76 @@
+---
+---
+
+<div id="hero-container" class="hero-container">
+  <div id="particles-container" class="particles-container"></div>
+  <h1 id="hero-title" class="hero-title">CS362 Group 92 Project</h1>
+  <h2 id="hero-subtitle" class="hero-subtitle">Specification Compliance & Student Q&A Review</h2>
+</div>
+
+<script>
+  import gsap from 'gsap';
+
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroContainer = document.getElementById('hero-container');
+    const titleElement = document.getElementById('hero-title');
+    const subtitleElement = document.getElementById('hero-subtitle');
+    const particlesContainer = document.getElementById('particles-container');
+    
+    if (!heroContainer || !titleElement || !subtitleElement || !particlesContainer) return;
+
+    // Create particles
+    for (let i = 0; i < 100; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      particle.style.animationDelay = `${Math.random() * 2}s`;
+      particlesContainer.appendChild(particle);
+    }
+
+    // Create GSAP timeline for hero animations
+    const tl = gsap.timeline();
+    
+    // Initial state - everything hidden
+    gsap.set([titleElement, subtitleElement], { 
+      opacity: 0,
+      y: 100
+    });
+    
+    // Explosive entrance animation
+    tl.to(titleElement, {
+      opacity: 1,
+      y: 0,
+      duration: 1.5,
+      ease: "elastic.out(1, 0.3)",
+      rotationX: 360,
+      transformOrigin: "center center"
+    })
+    .to(subtitleElement, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
+      stagger: 0.1
+    }, "-=0.5");
+    
+    // Mouse movement effect for 3D rotation
+    heroContainer.addEventListener('mousemove', (e) => {
+      const xPos = (e.clientX / window.innerWidth - 0.5) * 20;
+      const yPos = (e.clientY / window.innerHeight - 0.5) * 20;
+      
+      gsap.to(titleElement, {
+        rotationY: xPos,
+        rotationX: -yPos,
+        duration: 0.5,
+        ease: "power1.out"
+      });
+    });
+  });
+</script>
+
+<style lang="scss">
+  @use '../../styles/Hero.scss';
+</style>

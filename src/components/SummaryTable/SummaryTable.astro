@@ -1,0 +1,208 @@
+---
+// SummaryTable Astro component
+---
+
+<style>
+  @use '../../styles/SummaryTable.scss';
+</style>
+
+<div id="summary-section" class="summary-container">
+  <h2 id="summary-title" class="section-title">Summary Table</h2>
+  
+  <table id="summary-table" class="summary-table">
+    <thead>
+      <tr>
+        <th>Requirement</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-cell>No built-in conversion in task.py</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>Built-ins allowed in tests.py</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>No datetime in task.py</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>Manual leap year/date calculation</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>Comprehensive test coverage</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>No trivializing libraries</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td data-cell>Boolean/None/Unicode/Endian handling</td>
+        <td data-cell>
+          <span class="status">
+            <span class="status-indicator"></span>
+            Compliant
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof window !== 'undefined') {
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+      
+      const sectionElement = document.getElementById('summary-section');
+      const titleElement = document.getElementById('summary-title');
+      const tableElement = document.getElementById('summary-table');
+      const cellElements = document.querySelectorAll('[data-cell]');
+      
+      // Create GSAP timeline for summary table animations
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionElement,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
+      
+      // Title animation
+      tl.from(titleElement, {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: "back.out(1.7)"
+      });
+      
+      // Table header animation
+      const tableHeader = tableElement?.querySelector('thead');
+      if (tableHeader) {
+        tl.from(tableHeader, {
+          opacity: 0,
+          y: -50,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.4");
+      }
+      
+      // Cell-by-cell animation
+      cellElements.forEach((cell, index) => {
+        gsap.from(cell, {
+          opacity: 0,
+          scale: 0,
+          duration: 0.5,
+          delay: 0.05 * index,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: tableElement,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        });
+        
+        // Status indicator animation for "Compliant" cells
+        if (cell.textContent?.includes('Compliant')) {
+          const statusIndicator = cell.querySelector('.status-indicator');
+          if (statusIndicator) {
+            gsap.to(statusIndicator, {
+              backgroundColor: '#00f5a0',
+              boxShadow: '0 0 15px #00f5a0',
+              repeat: -1,
+              yoyo: true,
+              duration: 1.5,
+              ease: "sine.inOut",
+              scrollTrigger: {
+                trigger: tableElement,
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+              }
+            });
+          }
+        }
+      });
+      
+      // Row hover effect
+      const mouseEnterHandlers = {};
+      const mouseLeaveHandlers = {};
+      
+      const rows = tableElement?.querySelectorAll('tbody tr');
+      rows?.forEach((row, index) => {
+        mouseEnterHandlers[index] = (event) => {
+          // Create ripple effect
+          const ripple = document.createElement('div');
+          ripple.className = 'ripple';
+          row.appendChild(ripple);
+          
+          gsap.to(ripple, {
+            scale: 20,
+            opacity: 0,
+            duration: 1,
+            ease: "power1.out",
+            onComplete: () => {
+              ripple.remove();
+            }
+          });
+          
+          // Highlight row
+          gsap.to(row, {
+            backgroundColor: 'rgba(0, 245, 160, 0.2)',
+            duration: 0.3,
+            ease: "power1.out"
+          });
+        };
+        
+        mouseLeaveHandlers[index] = () => {
+          gsap.to(row, {
+            backgroundColor: 'transparent',
+            duration: 0.3,
+            ease: "power1.out"
+          });
+        };
+        
+        row.addEventListener('mouseenter', mouseEnterHandlers[index]);
+        row.addEventListener('mouseleave', mouseLeaveHandlers[index]);
+      });
+    }
+  });
+</script>

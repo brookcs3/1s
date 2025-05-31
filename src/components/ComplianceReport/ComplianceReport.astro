@@ -1,0 +1,216 @@
+---
+// ComplianceReport Astro component
+---
+
+<style>
+  @use '../../styles/ComplianceReport.scss';
+</style>
+
+<div id="compliance-section" class="compliance-container">
+  <h2 id="compliance-title" class="section-title">Specification Compliance Report</h2>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>No Built-in Conversion Functions in task.py</h3>
+      <p><strong>Requirement:</strong> You may not use Python built-ins/libraries that make any of these tasks trivial (e.g., int(), float(), eval(), literal_eval()).</p>
+      <p><strong>Status:</strong> All conversions in conv_num, my_datetime, and conv_endian are implemented manually. No restricted built-ins are used.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>Built-ins Allowed in tests.py</h3>
+      <p><strong>Requirement:</strong> You may use built-in functions in your tests.py file.</p>
+      <p><strong>Status:</strong> The test file uses built-ins for assertions and manual parsing in test helpers, which is allowed.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>No Use of datetime Module in task.py</h3>
+      <p><strong>Requirement:</strong> Do not use datetime.datetime.fromtimestamp() or similar; must manually compute dates.</p>
+      <p><strong>Status:</strong> The my_datetime function manually calculates years, months, and days, including leap year logic, without using the datetime module.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>Manual Leap Year and Date Calculation</h3>
+      <p><strong>Requirement:</strong> Must manually determine leap years and the number of days in each month.</p>
+      <p><strong>Status:</strong> The check_leap and find_month helper functions implement this logic from scratch.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>Comprehensive and Correct Test Coverage</h3>
+      <p><strong>Requirement:</strong> Tests should cover all edge cases and requirements.</p>
+      <p><strong>Status:</strong> The test suite in tests.py is extensive, covering valid/invalid input, edge cases, and return types for all three functions.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>No Use of Trivializing Libraries</h3>
+      <p><strong>Requirement:</strong> No use of libraries that trivialize the assignment.</p>
+      <p><strong>Status:</strong> Only standard Python is used, and all logic is implemented manually.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="compliance-item" data-compliance-item>
+    <div class="compliance-badge">Compliant</div>
+    <div class="compliance-content">
+      <h3>Other Clarifications</h3>
+      <p><strong>Boolean and None Handling:</strong> Both conv_num and my_datetime reject boolean and None inputs as required.</p>
+      <p><strong>Whitespace and Unicode Handling:</strong> The code rejects non-ASCII whitespace and non-ASCII digits/letters.</p>
+      <p><strong>Endian Conversion:</strong> conv_endian is implemented without using built-in byte/hex conversion shortcuts.</p>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof window !== 'undefined') {
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+      
+      const sectionElement = document.getElementById('compliance-section');
+      const titleElement = document.getElementById('compliance-title');
+      const itemElements = document.querySelectorAll('[data-compliance-item]');
+      
+      // Create GSAP timeline for compliance report animations
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionElement,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
+      
+      // Title animation
+      tl.from(titleElement, {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: "back.out(1.7)"
+      });
+      
+      // Staggered reveal of compliance items
+      itemElements.forEach((item, index) => {
+        const badge = item.querySelector('.compliance-badge');
+        const content = item.querySelector('.compliance-content');
+        
+        gsap.from(item, {
+          opacity: 0,
+          x: index % 2 === 0 ? -100 : 100,
+          rotationY: 90,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            end: "bottom 15%",
+            toggleActions: "play none none reverse"
+          }
+        });
+        
+        if (badge) {
+          gsap.to(badge, {
+            scale: 1.2,
+            duration: 0.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          });
+        }
+        
+        if (content) {
+          const checkmarks = content.querySelectorAll('.checkmark');
+          checkmarks.forEach(checkmark => {
+            gsap.from(checkmark, {
+              drawSVG: "0%",
+              duration: 1,
+              ease: "power2.inOut",
+              scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+              }
+            });
+          });
+        }
+      });
+      
+      // Hover effects for items
+      const mouseEnterHandlers = {};
+      const mouseLeaveHandlers = {};
+      
+      itemElements.forEach((item, index) => {
+        mouseEnterHandlers[index] = () => {
+          gsap.to(item, {
+            rotationY: 10,
+            scale: 1.05,
+            boxShadow: "0 20px 30px rgba(0, 0, 0, 0.3)",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        };
+        
+        mouseLeaveHandlers[index] = () => {
+          gsap.to(item, {
+            rotationY: 0,
+            scale: 1,
+            boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        };
+        
+        item.addEventListener('mouseenter', mouseEnterHandlers[index]);
+        item.addEventListener('mouseleave', mouseLeaveHandlers[index]);
+      });
+    }
+  });
+</script>
