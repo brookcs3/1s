@@ -1,0 +1,117 @@
+.summary-container {
+  padding: 4rem 2rem;
+  background: linear-gradient(45deg, #16213e, #0f3460);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(to right, #ff00cc, #3333ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(255, 0, 204, 0.5);
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #ff00cc, #3333ff);
+  border-radius: 2px;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin: 0 auto;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+.summary-table thead th {
+  padding: 1.5rem;
+  text-align: left;
+  font-size: 1.2rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.summary-table tbody tr {
+  position: relative;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.summary-table tbody td {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.summary-table tbody td:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.summary-table tbody td:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #00f5a0;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #00f5a0;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 5px;
+  height: 5px;
+  background: rgba(0, 245, 160, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .summary-table thead th,
+  .summary-table tbody td {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,134 @@
+.compliance-container {
+  padding: 4rem 2rem;
+  background: linear-gradient(45deg, #1a1a2e, #16213e);
+  color: white;
+}
+
+.section-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(to right, #00f5a0, #00d9f5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(0, 245, 160, 0.5);
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #00f5a0, #00d9f5);
+  border-radius: 2px;
+}
+
+.compliance-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.compliance-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(0, 245, 160, 0.1), rgba(0, 217, 245, 0.1));
+  z-index: -1;
+}
+
+.compliance-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(45deg, #00f5a0, #00d9f5);
+  color: #0a0a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0, 245, 160, 0.3);
+  transform-origin: center;
+}
+
+.compliance-content {
+  padding-top: 1rem;
+}
+
+.compliance-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.compliance-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.compliance-content strong {
+  color: #00f5a0;
+}
+
+.checkmark {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+}
+
+.checkmark-circle {
+  stroke: #00f5a0;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 0;
+  fill: none;
+}
+
+.checkmark-check {
+  stroke: #00f5a0;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 0;
+  fill: none;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .compliance-item {
+    padding: 1.5rem;
+  }
+  
+  .compliance-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .checkmark {
+    width: 40px;
+    height: 40px;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}

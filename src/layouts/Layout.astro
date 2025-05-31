@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS362 Project Report</title>
+  <script src="../scripts/lenis.js"></script>
+</head>
+<body>
+  <slot />
+  <script>
+    // This ensures Lenis is initialized after Astro hydration
+    document.addEventListener('astro:page-load', () => {
+      // Reinitialize Lenis if needed after page transitions
+      if (window.location.pathname === window.location.pathname) {
+        // Force a small delay to ensure all components are fully loaded
+        setTimeout(() => {
+          document.dispatchEvent(new Event('DOMContentLoaded'));
+        }, 100);
+      }
+    });
+  </script>
+</body>
+</html>
