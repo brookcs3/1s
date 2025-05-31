@@ -1,5 +1,6 @@
 ---
 import '../styles/global.scss';
+import '../styles/modern-styles.css';
 ---
 
 <html lang="en">
@@ -18,8 +19,8 @@ import '../styles/global.scss';
     // Make Pizzicato globally available
     window.Pizzicato = Pizzicato;
 
-    // Initialize Lenis when the document is fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lenis and ambient audio when the document is fully loaded
+    document.addEventListener('DOMContentLoaded', async () => {
       const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -45,6 +46,73 @@ import '../styles/global.scss';
       if (window.gsap) {
         lenis.on('scroll', () => {
           // You can trigger GSAP animations based on scroll position here
+        });
+      }
+
+      // Initialize ambient noise system
+      try {
+        const { default: soundEffects } = await import('../utils/soundEffects.js');
+        
+        // Start ambient noise after a brief delay (requires user interaction)
+        let ambientStarted = false;
+        const startAmbient = () => {
+          if (!ambientStarted) {
+            soundEffects.startAmbientNoise();
+            ambientStarted = true;
+            console.log('🌊 Ambient noise system activated');
+          }
+        };
+
+        // Start ambient noise on first user interaction
+        document.addEventListener('click', startAmbient, { once: true });
+        document.addEventListener('mousemove', startAmbient, { once: true });
+        document.addEventListener('keydown', startAmbient, { once: true });
+
+        // Set up mouse tracking for noise modulation
+        let lastMouseTime = Date.now();
+        document.addEventListener('mousemove', (e) => {
+          const now = Date.now();
+          // Throttle to prevent audio artifacts (update every 16ms = ~60fps)
+          if (now - lastMouseTime > 16) {
+            soundEffects.modulateNoise(
+              e.clientX, 
+              e.clientY, 
+              window.innerWidth, 
+              window.innerHeight
+            );
+            lastMouseTime = now;
+          }
+        });
+
+        // Make soundEffects globally available for vocoder integration
+        window.soundEffects = soundEffects;
+        
+      } catch (error) {
+        console.warn('Could not initialize ambient audio:', error);
+      }
+
+      // Create cursor trail effect (only on desktop)
+      if (window.innerWidth > 768) {
+        const trail = document.createElement('div');
+        trail.className = 'cursor-trail';
+        document.body.appendChild(trail);
+        
+        document.addEventListener('mousemove', (e) => {
+          const { clientX, clientY } = e;
+          
+          // Smooth follow with slight delay using GSAP if available
+          if (window.gsap) {
+            window.gsap.to(trail, {
+              x: clientX,
+              y: clientY,
+              duration: 0.3,
+              ease: 'power2.out'
+            });
+          } else {
+            // Fallback positioning
+            trail.style.left = clientX + 'px';
+            trail.style.top = clientY + 'px';
+          }
         });
       }
     });

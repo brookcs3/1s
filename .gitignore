@@ -23,4 +23,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# Extracted update folders and zip files
 Convert to Beautiful Webpage with Interactive GSAP-3/
+Convert to Beautiful Webpage with Interactive GSAP-4/
+extracted-updates/
+*.zip
