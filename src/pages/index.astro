@@ -10,11 +10,344 @@ import EdDiscussion from '../components/EdDiscussion/EdDiscussion.astro';
 ---
 
 <Layout>
-  <Hero />
-  <ComplianceReport />
-  <SummaryTable />
-  <QASection />
-  <ComplianceAnalysis />
-  <EdDiscussion />
-  <OverallRating />
+  <!-- Main Content Grid -->
+  <main class="main-content">
+    
+    <!-- Hero Section - Full Width -->
+    <section class="hero-section">
+      <Hero />
+    </section>
+
+    <!-- Primary Content Grid -->
+    <div class="content-grid">
+      
+      <!-- Executive Summary Block -->
+      <section class="executive-summary">
+        <div class="section-header">
+          <h2 class="section-title">Executive Summary</h2>
+          <p class="section-subtitle">Key compliance insights and project metrics</p>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <ComplianceReport />
+          </div>
+          <div class="summary-card">
+            <OverallRating />
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Analysis Block -->
+      <section class="data-analysis">
+        <div class="section-header">
+          <h2 class="section-title">Data Analysis</h2>
+          <p class="section-subtitle">Detailed metrics and compliance tracking</p>
+        </div>
+        <div class="analysis-grid">
+          <div class="data-card full-width">
+            <SummaryTable />
+          </div>
+          <div class="data-card">
+            <ComplianceAnalysis />
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Content Block -->
+      <section class="interactive-content">
+        <div class="section-header">
+          <h2 class="section-title">Interactive Resources</h2>
+          <p class="section-subtitle">Q&A discussions and community insights</p>
+        </div>
+        <div class="interactive-grid">
+          <div class="interactive-card">
+            <QASection />
+          </div>
+          <div class="interactive-card">
+            <EdDiscussion />
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
 </Layout>
+
+<style>
+  .main-content {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  .hero-section {
+    position: relative;
+    margin-bottom: clamp(4rem, 8vw, 8rem);
+  }
+
+  .content-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 4rem);
+    display: grid;
+    gap: clamp(4rem, 8vw, 8rem);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 4vw, 4rem);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out forwards;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #64748b 0%, #e2e8f0 50%, #f8fafc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Executive Summary Grid */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .summary-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .summary-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    border-color: rgba(100, 116, 139, 0.3);
+  }
+
+  .summary-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Data Analysis Grid */
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .data-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .data-card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .data-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(100, 116, 139, 0.2);
+  }
+
+  /* Interactive Content Grid */
+  .interactive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .interactive-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 24px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .interactive-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(100, 116, 139, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .interactive-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(100, 116, 139, 0.15);
+  }
+
+  .interactive-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Animation Keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .analysis-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .data-card.full-width {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      gap: 3rem;
+    }
+    
+    .summary-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .interactive-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .summary-card,
+    .data-card,
+    .interactive-card {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content-grid {
+      padding: 0 1rem;
+    }
+    
+    .summary-card,
+    .data-card {
+      padding: 1rem;
+      border-radius: 12px;
+    }
+    
+    .interactive-card {
+      border-radius: 16px;
+    }
+  }
+
+  /* Smooth scroll behavior with gentle floating */
+  @media (prefers-reduced-motion: no-preference) {
+    .summary-card,
+    .data-card,
+    .interactive-card {
+      animation: slideInUp 0.8s ease-out backwards, gentleFloat 8s ease-in-out infinite;
+    }
+    
+    .summary-card:nth-child(1) { 
+      animation-delay: 0.1s, 0s; 
+      animation-duration: 0.8s, 7s;
+    }
+    .summary-card:nth-child(2) { 
+      animation-delay: 0.2s, 1s; 
+      animation-duration: 0.8s, 9s;
+    }
+    .data-card:nth-child(1) { 
+      animation-delay: 0.3s, 2s; 
+      animation-duration: 0.8s, 11s;
+    }
+    .data-card:nth-child(2) { 
+      animation-delay: 0.4s, 3s; 
+      animation-duration: 0.8s, 6s;
+    }
+    .interactive-card:nth-child(1) { 
+      animation-delay: 0.5s, 4s; 
+      animation-duration: 0.8s, 10s;
+    }
+    .interactive-card:nth-child(2) { 
+      animation-delay: 0.6s, 5s; 
+      animation-duration: 0.8s, 8s;
+    }
+
+    /* Section headers also get subtle movement */
+    .section-header {
+      animation: gentleFloat 12s ease-in-out infinite;
+    }
+  }
+  
+  @keyframes gentleFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-3px) rotate(0.2deg);
+    }
+    50% {
+      transform: translateY(-1px) rotate(-0.1deg);
+    }
+    75% {
+      transform: translateY(-2px) rotate(0.1deg);
+    }
+  }
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -19,76 +19,20 @@ import '../styles/modern-styles.css';
     // Make Pizzicato globally available
     window.Pizzicato = Pizzicato;
 
-    // Initialize Lenis and ambient audio when the document is fully loaded
+    // Just basic initialization
     document.addEventListener('DOMContentLoaded', async () => {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 2,
-        infinite: false,
-      });
 
-      // Set up the RAF loop for Lenis
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
 
-      // Start the animation loop
-      requestAnimationFrame(raf);
-      
-      // Optional: Add GSAP integration
-      if (window.gsap) {
-        lenis.on('scroll', () => {
-          // You can trigger GSAP animations based on scroll position here
-        });
-      }
-
-      // Initialize ambient noise system
+      // Initialize sound effects system (no ambient noise)
       try {
         const { default: soundEffects } = await import('../utils/soundEffects.js');
         
-        // Start ambient noise after a brief delay (requires user interaction)
-        let ambientStarted = false;
-        const startAmbient = () => {
-          if (!ambientStarted) {
-            soundEffects.startAmbientNoise();
-            ambientStarted = true;
-            console.log('🌊 Ambient noise system activated');
-          }
-        };
-
-        // Start ambient noise on first user interaction
-        document.addEventListener('click', startAmbient, { once: true });
-        document.addEventListener('mousemove', startAmbient, { once: true });
-        document.addEventListener('keydown', startAmbient, { once: true });
-
-        // Set up mouse tracking for noise modulation
-        let lastMouseTime = Date.now();
-        document.addEventListener('mousemove', (e) => {
-          const now = Date.now();
-          // Throttle to prevent audio artifacts (update every 16ms = ~60fps)
-          if (now - lastMouseTime > 16) {
-            soundEffects.modulateNoise(
-              e.clientX, 
-              e.clientY, 
-              window.innerWidth, 
-              window.innerHeight
-            );
-            lastMouseTime = now;
-          }
-        });
-
-        // Make soundEffects globally available for vocoder integration
+        // Make soundEffects globally available for UI interactions only
         window.soundEffects = soundEffects;
+        console.log('🎵 Sound effects system ready (ambient disabled)');
         
       } catch (error) {
-        console.warn('Could not initialize ambient audio:', error);
+        console.warn('Could not initialize sound effects:', error);
       }
 
       // Create cursor trail effect (only on desktop)

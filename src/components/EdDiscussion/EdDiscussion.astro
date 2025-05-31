@@ -51,200 +51,124 @@ import { categories, qaItems } from '../../data/edDiscussionData.ts';
 </section>
 
 <script>
-  // Import GSAP and ScrollTrigger dynamically
-  async function initEdDiscussionAnimations() {
+  // Initialize EdDiscussion functionality
+  async function initEdDiscussion() {
     try {
       const { default: soundEffects } = await import('../../utils/soundEffects.js');
       
+      const section = document.querySelector('.ed-discussion-container');
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      const questionCards = document.querySelectorAll('.qa-card');
+      
+      if (!section) return;
+      
+      let activeCategory = 'General FAQ';
+      let expandedQuestions = new Set();
+      
+      // Category switching functionality
+      function switchCategory(category) {
+        activeCategory = category;
+        
+        // Update button states
+        categoryButtons.forEach(btn => {
+          if (btn.dataset.category === category) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        
+        // Show/hide cards based on category
+        questionCards.forEach(card => {
+          if (card.dataset.category === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+      
+      // Set up category button click handlers
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const category = btn.dataset.category;
+          if (category && category !== activeCategory) {
+            switchCategory(category);
+            soundEffects.playNavigation();
+          }
+        });
+      });
+      
+      // Set up question card click handlers
+      questionCards.forEach(card => {
+        const questionHeader = card.querySelector('.question-header');
+        const answerContainer = card.querySelector('.answer-container');
+        const expandIcon = card.querySelector('.expand-icon');
+        const questionId = card.dataset.questionId;
+        
+        if (questionHeader && answerContainer && expandIcon && questionId) {
+          questionHeader.addEventListener('click', () => {
+            const isExpanded = card.classList.contains('expanded');
+            
+            if (isExpanded) {
+              // Collapse
+              expandedQuestions.delete(questionId);
+              card.classList.remove('expanded');
+              expandIcon.textContent = '+';
+              soundEffects.playCollapse();
+            } else {
+              // Expand
+              expandedQuestions.add(questionId);
+              card.classList.add('expanded');
+              expandIcon.textContent = '−';
+              soundEffects.playExpand();
+            }
+          });
+          
+          // Add cursor pointer
+          questionHeader.style.cursor = 'pointer';
+        }
+      });
+      
+      // GSAP animations (optional enhancement)
       if (typeof window !== 'undefined' && window.gsap) {
         const { gsap, ScrollTrigger } = window;
-        
-        // Register ScrollTrigger plugin
         gsap.registerPlugin(ScrollTrigger);
         
-        const section = document.querySelector('.ed-discussion-container');
-        const header = document.querySelector('.ed-header');
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const questionCards = document.querySelectorAll('.qa-card');
-        
-        if (!section) return;
-        
-        let activeCategory = 'General FAQ';
-        let expandedQuestions = new Set();
-        
-        // Create GSAP timeline for header animations
-        const headerTl = gsap.timeline({
+        // Header animation
+        gsap.from('.ed-header', {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: section,
             start: "top 80%",
-            end: "bottom 20%",
             toggleActions: "play none none reverse"
           }
         });
         
-        // Header animation
-        headerTl.from(header, {
-          opacity: 0,
-          y: 50,
-          duration: 1,
-          ease: "back.out(1.7)"
-        });
-        
-        // Animate category buttons
-        categoryButtons.forEach((btn, index) => {
-          gsap.from(btn, {
-            opacity: 0,
-            x: -50,
-            duration: 0.5,
-            delay: 0.2 + (index * 0.1),
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: btn,
-              start: "top 90%",
-              toggleActions: "play none none reverse"
-            }
-          });
-          
-          // Add hover effects
+        // Button hover effects
+        categoryButtons.forEach(btn => {
           btn.addEventListener('mouseenter', () => {
-            gsap.to(btn, {
-              scale: 1.05,
-              duration: 0.3,
-              ease: "power1.out"
-            });
+            gsap.to(btn, { scale: 1.05, duration: 0.3, ease: "power1.out" });
           });
-          
           btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, {
-              scale: 1,
-              duration: 0.3,
-              ease: "power1.out"
-            });
-          });
-          
-          // Category switching
-          btn.addEventListener('click', () => {
-            const category = btn.dataset.category;
-            if (category && category !== activeCategory) {
-              switchCategory(category);
-              // Play navigation sound
-              soundEffects.playNavigation();
-            }
+            gsap.to(btn, { scale: 1, duration: 0.3, ease: "power1.out" });
           });
         });
-        
-        // Animate visible question cards
-        function animateVisibleCards() {
-          const visibleCards = document.querySelectorAll(`.qa-card[data-category="${activeCategory}"]`);
-          visibleCards.forEach((card, index) => {
-            gsap.from(card, {
-              opacity: 0,
-              y: 30,
-              duration: 0.5,
-              delay: 0.3 + (index * 0.1),
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 90%",
-                toggleActions: "play none none reverse"
-              }
-            });
-          });
-        }
-        
-        // Initial animation for default category
-        animateVisibleCards();
-        
-        // Function to switch categories
-        function switchCategory(category) {
-          // Update active category
-          activeCategory = category;
-          
-          // Update button states
-          categoryButtons.forEach(btn => {
-            if (btn.dataset.category === category) {
-              btn.classList.add('active');
-            } else {
-              btn.classList.remove('active');
-            }
-          });
-          
-          // Hide all cards first
-          questionCards.forEach(card => {
-            gsap.to(card, {
-              opacity: 0,
-              duration: 0.2,
-              onComplete: () => {
-                card.style.display = 'none';
-              }
-            });
-          });
-          
-          // Show cards for active category
-          setTimeout(() => {
-            const cardsToShow = document.querySelectorAll(`.qa-card[data-category="${category}"]`);
-            cardsToShow.forEach((card, index) => {
-              card.style.display = 'block';
-              gsap.fromTo(card, {
-                opacity: 0,
-                y: 20
-              }, {
-                opacity: 1,
-                y: 0,
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: "power3.out"
-              });
-            });
-          }, 200);
-        }
-        
-        // Question toggle functionality
-        questionCards.forEach(card => {
-          const questionHeader = card.querySelector('.question-header');
-          const answerContainer = card.querySelector('.answer-container');
-          const expandIcon = card.querySelector('.expand-icon');
-          const questionId = card.dataset.questionId;
-          
-          if (questionHeader && answerContainer && expandIcon && questionId) {
-            questionHeader.addEventListener('click', () => {
-              const isExpanded = card.classList.contains('expanded');
-              
-              if (isExpanded) {
-                // Collapse
-                expandedQuestions.delete(questionId);
-                card.classList.remove('expanded');
-                expandIcon.textContent = '+';
-                
-                // Play collapse sound
-                soundEffects.playCollapse();
-              } else {
-                // Expand
-                expandedQuestions.add(questionId);
-                card.classList.add('expanded');
-                expandIcon.textContent = '−';
-                
-                // Play expand sound
-                soundEffects.playExpand();
-              }
-            });
-            
-            // Add cursor pointer
-            questionHeader.style.cursor = 'pointer';
-          }
-        });
-        
       }
+      
     } catch (error) {
-      console.log('GSAP not available, skipping animations');
+      console.error('Failed to initialize EdDiscussion:', error);
     }
   }
   
-  // Initialize animations when DOM is ready
+  // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEdDiscussionAnimations);
+    document.addEventListener('DOMContentLoaded', initEdDiscussion);
   } else {
-    initEdDiscussionAnimations();
+    initEdDiscussion();
   }
 </script>
 

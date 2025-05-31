@@ -4,95 +4,394 @@ import '../styles/Hero.scss';
 
 <div id="hero-container" class="hero-container">
   <div id="particles-container" class="particles-container"></div>
-  <h1 id="hero-title" class="hero-title">CS362 Group 92 Project</h1>
-  <h2 id="hero-subtitle" class="hero-subtitle">Specification Compliance & Student Q&A Review</h2>
+  
+  <!-- Modern Logo Section -->
+  <div id="logo-section" class="logo-section">
+    <div id="logo-container" class="logo-container">
+      <!-- Animated logo elements -->
+      <div class="logo-circle circle-1"></div>
+      <div class="logo-circle circle-2"></div>
+      <div class="logo-circle circle-3"></div>
+      <div class="logo-text">
+        <span class="logo-letter">C</span>
+        <span class="logo-letter">S</span>
+        <span class="logo-number">3</span>
+        <span class="logo-number">6</span>
+        <span class="logo-number">2</span>
+      </div>
+      <div class="logo-underline"></div>
+    </div>
+    <div class="group-badge">GROUP 92</div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <h1 id="hero-title" class="hero-title">
+      <span class="title-line">Specification Compliance</span>
+      <span class="title-line">& Student Q&A Review</span>
+    </h1>
+    <div id="hero-subtitle" class="hero-subtitle">
+      <span class="subtitle-text">Comprehensive analysis and testing framework</span>
+      <span class="subtitle-accent">for software engineering excellence</span>
+    </div>
+    
+    <!-- Call to action -->
+    <div class="hero-cta">
+      <button id="explore-btn" class="explore-btn">
+        <span class="btn-text">Explore Report</span>
+        <div class="btn-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating UI Elements -->
+  <div class="floating-elements">
+    <div class="float-card" data-speed="0.5">
+      <div class="card-icon">📊</div>
+      <div class="card-text">Analytics</div>
+    </div>
+    <div class="float-card" data-speed="0.8">
+      <div class="card-icon">🔧</div>
+      <div class="card-text">Testing</div>
+    </div>
+    <div class="float-card" data-speed="0.3">
+      <div class="card-icon">📋</div>
+      <div class="card-text">Reports</div>
+    </div>
+  </div>
 </div>
 
 <script>
   import gsap from 'gsap';
+  import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+  // Register GSAP plugins
+  gsap.registerPlugin(ScrollToPlugin);
 
   // Wait for DOM to be ready
   document.addEventListener('DOMContentLoaded', () => {
     const heroContainer = document.getElementById('hero-container');
+    const logoContainer = document.getElementById('logo-container');
+    const logoSection = document.getElementById('logo-section');
     const titleElement = document.getElementById('hero-title');
     const subtitleElement = document.getElementById('hero-subtitle');
+    const exploreBtn = document.getElementById('explore-btn');
     const particlesContainer = document.getElementById('particles-container');
     
-    if (!heroContainer || !titleElement || !subtitleElement || !particlesContainer) return;
+    if (!heroContainer || !logoContainer || !titleElement || !subtitleElement) return;
 
-    // Create particles with more subtle styling
-    const particleCount = 50; // Reduced for subtlety
+    // Create morphing particles
+    const particleCount = 80;
     
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
+      particle.dataset.index = i;
       
-      // More subtle, professional positioning and sizing
-      const size = Math.random() * 3 + 1;
+      const size = Math.random() * 4 + 2;
       const posX = Math.random() * 100;
       const posY = Math.random() * 100;
-      const opacity = Math.random() * 0.3 + 0.1; // More subtle opacity
       
-      // Apply styles
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
       particle.style.left = `${posX}%`;
       particle.style.top = `${posY}%`;
-      particle.style.opacity = opacity.toString();
       
       particlesContainer.appendChild(particle);
     }
     
-    // Animate particles with more subtle movement
+    // Advanced particle system
     gsap.to('.particle', {
-      y: 'random(-20, 20)',
-      x: 'random(-20, 20)',
-      opacity: 'random(0.1, 0.3)',
-      duration: 'random(3, 6)',
-      ease: 'sine.inOut',
+      y: 'random(-30, 30)',
+      x: 'random(-30, 30)',
+      scale: 'random(0.5, 1.5)',
+      opacity: 'random(0.1, 0.4)',
+      rotation: 'random(0, 360)',
+      duration: 'random(4, 8)',
+      ease: 'none',
       repeat: -1,
       yoyo: true,
       stagger: {
-        each: 0.1,
+        each: 0.05,
         from: 'random'
       }
     });
 
-    // Create GSAP timeline for hero animations
-    const tl = gsap.timeline();
+    // Master timeline for entrance animations
+    const masterTL = gsap.timeline({ delay: 0.2 });
     
-    // Initial state - everything hidden
-    gsap.set([titleElement, subtitleElement], { 
+    // Set initial states
+    gsap.set(['.logo-circle', '.logo-text span', '.logo-underline', '.group-badge'], { 
       opacity: 0,
-      y: 100
+      scale: 0,
+      rotation: -180
     });
     
-    // More subtle title animation
-    tl.from(titleElement, {
-      y: 30,
+    gsap.set(['.title-line', '.subtitle-text', '.subtitle-accent', '.explore-btn'], { 
       opacity: 0,
-      duration: 1,
-      ease: "power3.out"
-    })
-    // Subtitle with slight delay
-    .from(subtitleElement, {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out"
-    }, "-=0.4");
+      y: 60,
+      skewY: 3
+    });
     
-    // Mouse movement effect for 3D rotation
-    heroContainer.addEventListener('mousemove', (e) => {
-      const xPos = (e.clientX / window.innerWidth - 0.5) * 20;
-      const yPos = (e.clientY / window.innerHeight - 0.5) * 20;
-      
-      gsap.to(titleElement, {
-        rotationY: xPos,
-        rotationX: -yPos,
+    gsap.set('.float-card', { 
+      opacity: 0,
+      y: 100,
+      rotation: 'random(-10, 10)'
+    });
+
+    // Logo entrance sequence
+    masterTL
+      // Circles animate in with elastic effect
+      .to('.logo-circle', {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 1.2,
+        ease: 'elastic.out(1, 0.5)',
+        stagger: 0.1
+      })
+      // Letters reveal with typewriter effect
+      .to('.logo-text span', {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 0.8,
+        ease: 'back.out(1.7)',
+        stagger: 0.08
+      }, '-=0.8')
+      // Underline draws in
+      .to('.logo-underline', {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.6,
+        ease: 'power2.out'
+      }, '-=0.4')
+      // Group badge pops in
+      .to('.group-badge', {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
         duration: 0.5,
-        ease: "power1.out"
+        ease: 'back.out(1.7)'
+      }, '-=0.3')
+      // Title lines reveal with split effect
+      .to('.title-line', {
+        opacity: 1,
+        y: 0,
+        skewY: 0,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.2
+      }, '-=0.2')
+      // Subtitle reveals
+      .to('.subtitle-text', {
+        opacity: 1,
+        y: 0,
+        skewY: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.5')
+      .to('.subtitle-accent', {
+        opacity: 1,
+        y: 0,
+        skewY: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.6')
+      // CTA button with bounce
+      .to('.explore-btn', {
+        opacity: 1,
+        y: 0,
+        skewY: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)'
+      }, '-=0.4')
+      // Floating cards cascade in
+      .to('.float-card', {
+        opacity: 1,
+        y: 0,
+        rotation: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        stagger: 0.15
+      }, '-=0.3');
+
+    // Continuous logo animations
+    gsap.to('.circle-1', {
+      rotation: 360,
+      duration: 20,
+      ease: 'none',
+      repeat: -1
+    });
+    
+    gsap.to('.circle-2', {
+      rotation: -360,
+      duration: 15,
+      ease: 'none',
+      repeat: -1
+    });
+    
+    gsap.to('.circle-3', {
+      rotation: 360,
+      duration: 25,
+      ease: 'none',
+      repeat: -1
+    });
+
+    // Mouse parallax effect
+    heroContainer.addEventListener('mousemove', (e) => {
+      const xPos = (e.clientX / window.innerWidth - 0.5);
+      const yPos = (e.clientY / window.innerHeight - 0.5);
+      
+      // Logo parallax
+      gsap.to(logoContainer, {
+        x: xPos * 30,
+        y: yPos * 20,
+        rotationY: xPos * 10,
+        rotationX: -yPos * 10,
+        duration: 0.8,
+        ease: 'power1.out'
       });
+      
+      // Title parallax
+      gsap.to('.title-line', {
+        x: xPos * 20,
+        y: yPos * 15,
+        duration: 0.6,
+        ease: 'power1.out',
+        stagger: 0.1
+      });
+      
+      // Floating cards parallax
+      gsap.to('.float-card', {
+        x: xPos * -40,
+        y: yPos * -30,
+        rotation: xPos * 5,
+        duration: 1,
+        ease: 'power1.out',
+        stagger: 0.1
+      });
+      
+      // Particles respond to mouse
+      gsap.to('.particle', {
+        x: `+=${xPos * 10}`,
+        y: `+=${yPos * 10}`,
+        duration: 2,
+        ease: 'power1.out'
+      });
+    });
+
+    // Interactive button hover effect
+    if (exploreBtn) {
+      exploreBtn.addEventListener('mouseenter', () => {
+        gsap.to(exploreBtn, {
+          scale: 1.05,
+          y: -3,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+        
+        gsap.to('.btn-arrow', {
+          x: 5,
+          rotation: 45,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+        
+        // Play button hover sound
+        if (window.soundEffects) {
+          window.soundEffects.playHover();
+        }
+      });
+      
+      exploreBtn.addEventListener('mouseleave', () => {
+        gsap.to(exploreBtn, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+        
+        gsap.to('.btn-arrow', {
+          x: 0,
+          rotation: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+
+      // Button click functionality - just sound effect
+      exploreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Play click sound
+        if (window.soundEffects) {
+          window.soundEffects.playClick();
+        }
+      });
+    }
+
+    // Enhanced floating animations for cards
+    gsap.to('.float-card', {
+      y: 'random(-15, 15)',
+      x: 'random(-8, 8)',
+      rotation: 'random(-3, 3)',
+      scale: 'random(0.98, 1.02)',
+      duration: 'random(3, 6)',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.3
+    });
+
+    // Additional gentle shake for logo elements
+    gsap.to('.logo-text span', {
+      y: 'random(-2, 2)',
+      rotation: 'random(-1, 1)',
+      duration: 'random(4, 7)',
+      ease: 'power1.inOut',
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.1
+    });
+
+    // Subtle breathing effect for the whole logo container
+    gsap.to('.logo-container', {
+      scale: 'random(0.98, 1.02)',
+      duration: 'random(5, 8)',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+
+    // Gentle drift for particles (in addition to mouse tracking)
+    gsap.to('.particle', {
+      x: 'random(-20, 20)',
+      y: 'random(-20, 20)',
+      rotation: 'random(-45, 45)',
+      scale: 'random(0.8, 1.2)',
+      duration: 'random(8, 15)',
+      ease: 'none',
+      repeat: -1,
+      yoyo: true,
+      stagger: {
+        each: 0.02,
+        from: 'random'
+      }
+    });
+
+    // Breathing effect for title lines
+    gsap.to('.title-line', {
+      scaleY: 'random(0.995, 1.005)',
+      duration: 'random(6, 10)',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.5
     });
   });
 </script>
