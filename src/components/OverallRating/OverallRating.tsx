@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollTriggerPkg from 'gsap/ScrollTrigger';
+const ScrollTrigger = ScrollTriggerPkg.default || ScrollTriggerPkg;
 import './OverallRating.scss';
 
 const OverallRating = () => {

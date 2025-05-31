@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollTriggerPkg from 'gsap/ScrollTrigger';
+const ScrollTrigger = ScrollTriggerPkg.default || ScrollTriggerPkg;
 import './QASection.scss';
 
 const QASection = () => {
