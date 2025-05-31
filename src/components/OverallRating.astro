@@ -33,6 +33,9 @@ import '../styles/OverallRating.scss';
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
       
+      // Import sound effects
+      const { default: soundEffects } = await import('../utils/soundEffects.js');
+      
       const sectionElement = document.getElementById('rating-section');
       const titleElement = document.getElementById('rating-title');
       const ratingElement = document.getElementById('rating-number');
@@ -72,6 +75,7 @@ import '../styles/OverallRating.scss';
           },
           onComplete: function() {
             // Create confetti explosion
+            soundEffects.playConfetti();
             createConfetti();
           }
         });

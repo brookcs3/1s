@@ -108,6 +108,9 @@ import '../styles/ComplianceReport.scss';
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
       
+      // Import sound effects
+      const { default: soundEffects } = await import('../utils/soundEffects.js');
+      
       const sectionElement = document.getElementById('compliance-section');
       const titleElement = document.getElementById('compliance-title');
       const itemElements = document.querySelectorAll('[data-compliance-item]');
@@ -145,7 +148,11 @@ import '../styles/ComplianceReport.scss';
             trigger: item,
             start: "top 85%",
             end: "bottom 15%",
-            toggleActions: "play none none reverse"
+            toggleActions: "play none none reverse",
+            onStart: () => {
+              // Play card reveal sound with slight delay for staggering
+              setTimeout(() => soundEffects.playCardReveal(), index * 200);
+            }
           }
         });
         
@@ -187,6 +194,7 @@ import '../styles/ComplianceReport.scss';
       
       itemElements.forEach((item, index) => {
         mouseEnterHandlers[index] = () => {
+          soundEffects.playHover();
           gsap.to(item, {
             rotationY: 10,
             scale: 1.05,

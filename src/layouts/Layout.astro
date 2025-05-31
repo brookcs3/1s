@@ -13,6 +13,10 @@ import '../styles/global.scss';
   
   <script>
     import Lenis from '@studio-freight/lenis';
+    import Pizzicato from 'pizzicato';
+
+    // Make Pizzicato globally available
+    window.Pizzicato = Pizzicato;
 
     // Initialize Lenis when the document is fully loaded
     document.addEventListener('DOMContentLoaded', () => {

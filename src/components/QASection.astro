@@ -104,6 +104,9 @@ const qaItems = [
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
       
+      // Import sound effects
+      const { default: soundEffects } = await import('../utils/soundEffects.js');
+      
       const sectionElement = document.getElementById('qa-section');
       const titleElement = document.getElementById('qa-title');
       const qaItemElements = document.querySelectorAll('[data-qa-item]');
@@ -215,6 +218,7 @@ const qaItems = [
         if (answer && toggle) {
           if (activeQA === id) {
             // Close animation
+            soundEffects.playClick();
             gsap.to(answer, {
               height: 0,
               opacity: 0,
@@ -242,6 +246,7 @@ const qaItems = [
             }
             
             // Open animation
+            soundEffects.playWhoosh();
             gsap.fromTo(answer, 
               { height: 0, opacity: 0 },
               { 
@@ -260,7 +265,8 @@ const qaItems = [
                         opacity: 1, 
                         duration: 0.5, 
                         delay: index * 0.2,
-                        ease: "back.out(1.7)" 
+                        ease: "back.out(1.7)",
+                        onComplete: index === pages.length - 1 ? () => soundEffects.playSuccess() : undefined
                       }
                     );
                   });
