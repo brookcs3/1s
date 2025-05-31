@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   integrations: [react()],
-  site: 'https://brookcs3.github.io',
-  base: '/1s',
+  site: 'http://cs362.1oa.cc',
   outDir: './dist',
 });
