@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import './ComplianceReport.css';
+import './ComplianceReport.scss';
 
 const ComplianceReport = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

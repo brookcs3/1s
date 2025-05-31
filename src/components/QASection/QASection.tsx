@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './QASection.css';
+import './QASection.scss';
 
 const QASection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

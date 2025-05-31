@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import './Hero.css';
+import './Hero.scss';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);

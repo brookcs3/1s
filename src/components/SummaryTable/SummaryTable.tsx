@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './SummaryTable.css';
+import './SummaryTable.scss';
 
 const SummaryTable = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

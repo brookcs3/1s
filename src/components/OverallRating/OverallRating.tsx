@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './OverallRating.css';
+import './OverallRating.scss';
 
 const OverallRating = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
