@@ -5,7 +5,7 @@ class SoundEffects {
   constructor() {
     this.context = null;
     this.enabled = true;
-    this.volume = 0.05; // Even lower volume
+    this.volume = 0.2; // Increased for vocoder use
     this.ambientNoise = null;
     this.noiseFilter = null;
     this.noiseGain = null;
@@ -75,9 +75,9 @@ class SoundEffects {
       
       let currentVol = 0;
       const fadeIn = setInterval(() => {
-        currentVol += this.volume / 200; // Very slow fade in
-        this.ambientNoise.volume = Math.min(currentVol, this.volume * 0.15);
-        if (currentVol >= this.volume * 0.15) {
+        currentVol += this.volume / 100; // Faster fade in
+        this.ambientNoise.volume = Math.min(currentVol, this.volume * 0.6); // Much louder for vocoder
+        if (currentVol >= this.volume * 0.6) {
           clearInterval(fadeIn);
         }
       }, 50);

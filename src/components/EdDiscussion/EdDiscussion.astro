@@ -208,20 +208,13 @@ import { categories, qaItems } from '../../data/edDiscussionData.ts';
           
           if (questionHeader && answerContainer && expandIcon && questionId) {
             questionHeader.addEventListener('click', () => {
-              const isExpanded = expandedQuestions.has(questionId);
+              const isExpanded = card.classList.contains('expanded');
               
               if (isExpanded) {
                 // Collapse
                 expandedQuestions.delete(questionId);
                 card.classList.remove('expanded');
                 expandIcon.textContent = '+';
-                
-                gsap.to(answerContainer, {
-                  height: 0,
-                  opacity: 0,
-                  duration: 0.3,
-                  ease: "power2.in"
-                });
                 
                 // Play collapse sound
                 soundEffects.playCollapse();
@@ -231,50 +224,13 @@ import { categories, qaItems } from '../../data/edDiscussionData.ts';
                 card.classList.add('expanded');
                 expandIcon.textContent = '−';
                 
-                // Expand animation
-                gsap.fromTo(answerContainer,
-                  { height: 0, opacity: 0 },
-                  { 
-                    height: 'auto', 
-                    opacity: 1, 
-                    duration: 0.5, 
-                    ease: "power2.out",
-                    onComplete: () => {
-                      // Text reveal animation
-                      const textElements = answerContainer.querySelectorAll('p');
-                      gsap.fromTo(textElements,
-                        { opacity: 0, y: 20 },
-                        { 
-                          opacity: 1, 
-                          y: 0, 
-                          stagger: 0.1,
-                          duration: 0.4, 
-                          ease: "power2.out" 
-                        }
-                      );
-                      
-                      // Code block animation if exists
-                      const codeEl = answerContainer.querySelector('.code-block');
-                      if (codeEl) {
-                        gsap.fromTo(codeEl,
-                          { opacity: 0, scale: 0.95 },
-                          { 
-                            opacity: 1, 
-                            scale: 1, 
-                            duration: 0.5, 
-                            delay: 0.2,
-                            ease: "back.out(1.7)" 
-                          }
-                        );
-                      }
-                    }
-                  }
-                );
-                
                 // Play expand sound
                 soundEffects.playExpand();
               }
             });
+            
+            // Add cursor pointer
+            questionHeader.style.cursor = 'pointer';
           }
         });
         
@@ -460,11 +416,18 @@ import { categories, qaItems } from '../../data/edDiscussionData.ts';
 }
 
 .answer-container {
-  padding: 0 1.5rem 1.5rem 1.5rem;
+  padding: 0 1.5rem;
   overflow: hidden;
   line-height: 1.6;
   height: 0;
   opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.qa-card.expanded .answer-container {
+  height: auto;
+  opacity: 1;
+  padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .answer-text {
