@@ -2,6 +2,7 @@
 
 This project is an experimental Astro site that visualizes the compliance work for Group 92 in CS362. It blends GSAP powered animations with procedural sound effects created in `soundEffects.js`. The site renders a single page made up of several components such as a hero banner, compliance tables, Q&A sections and a dataset driven EdDiscussion viewer. Everything can be built to static HTML and served on GitHub Pages.
 
+
 ## Running the project
 
 ```bash
@@ -40,4 +41,13 @@ document.addEventListener('mousemove', (e) => {
   );
 });
 ```
+
+## Next Steps
+
+- Swap `@studio-freight/lenis` for the renamed [`lenis`](https://www.npmjs.com/package/lenis)
+  package to avoid deprecation warnings.
+- Integrate ambient noise with an external vocoder following
+  [`VOCODER_INTEGRATION.md`](VOCODER_INTEGRATION.md).
+
+
 
