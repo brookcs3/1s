@@ -1,47 +1,50 @@
-# Astro Starter Kit: Minimal
+# CS362 Interactive Report
 
-```sh
-npm create astro@latest -- --template minimal
+This project is an experimental Astro site that visualizes the compliance work for Group 92 in CS362. It blends GSAP powered animations with procedural sound effects created in `soundEffects.js`. The site renders a single page made up of several components such as a hero banner, compliance tables, Q&A sections and a dataset driven EdDiscussion viewer. Everything can be built to static HTML and served on GitHub Pages.
+
+## Running the project
+
+```bash
+npm install
+npm run dev         # start local dev server at http://localhost:4321
+npm run build        # build the static site to ./dist
+npm run preview      # serve the built site locally
+npm test             # run a small sanity check for soundEffects.js
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Repository structure
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+  components/        Astro components and styles
+  data/              EdDiscussion questions used by the viewer
+  layouts/           Main layout wrapper
+  pages/             Entry point `index.astro`
+  utils/             `soundEffects.js` procedural audio engine
+public/              static assets
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+More architecture notes and a component diagram are in [`docs/architecture.md`](docs/architecture.md).
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Highlight: `soundEffects.js`
 
-Any static assets, like images, can be placed in the `public/` directory.
+One of the more unusual parts of this codebase is [`soundEffects.js`](src/utils/soundEffects.js). It creates a minimal audio engine using [Pizzicato.js] to generate white‑noise based effects. These sounds are triggered by GSAP animations across the site and can even be modulated by a separate web based vocoder. The module exposes helpers such as `startAmbientNoise`, `stopAmbientNoise` and `modulateNoise` which are tested in [`tests/soundEffects.test.js`](tests/soundEffects.test.js).
 
-## 🧞 Commands
+```javascript
+// Example: start subtle background noise and respond to mouse movement
+window.soundEffects.startAmbientNoise();
+document.addEventListener('mousemove', (e) => {
+  window.soundEffects.modulateNoise(
+    e.clientX, e.clientY,
+    window.innerWidth, window.innerHeight
+  );
+});
+```
 
-All commands are run from the root of the project, from a terminal:
+## Next Steps
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- Swap `@studio-freight/lenis` for the renamed [`lenis`](https://www.npmjs.com/package/lenis)
+  package to avoid deprecation warnings.
+- Integrate ambient noise with an external vocoder following
+  [`VOCODER_INTEGRATION.md`](VOCODER_INTEGRATION.md).
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
